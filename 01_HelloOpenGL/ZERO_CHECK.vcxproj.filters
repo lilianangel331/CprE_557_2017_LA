@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\Lilian\Google Drive\CprE 557 CG\HCI-557-CG\01_HelloOpenGL\CMakeFiles\0f27b01af8c704c24e3fdd4d09041203\generate.stamp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{9314B98E-FE90-3110-93FD-2C4F5BA3D668}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

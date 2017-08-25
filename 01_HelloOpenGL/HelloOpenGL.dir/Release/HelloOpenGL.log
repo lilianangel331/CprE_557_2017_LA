@@ -1,0 +1,8 @@
+﻿  Building Custom Rule C:/Users/Lilian/Google Drive/CprE 557 CG/HCI-557-CG/01_HelloOpenGL/CMakeLists.txt
+  CMake does not need to re-run because C:/Users/Lilian/Google Drive/CprE 557 CG/HCI-557-CG/01_HelloOpenGL/CMakeFiles/generate.stamp is up-to-date.
+  main.cpp
+glfw.lib(init.obj) : error LNK2019: unresolved external symbol __imp_vsnprintf referenced in function _glfwInputError
+MSVCRT.lib(vsnprintf.obj) : error LNK2001: unresolved external symbol __imp_vsnprintf
+glfw.lib(context.obj) : error LNK2019: unresolved external symbol __imp_sscanf referenced in function parseVersionString
+MSVCRT.lib(vsnprintf.obj) : error LNK2001: unresolved external symbol __imp__vsnprintf
+C:\Users\Lilian\Google Drive\CprE 557 CG\HCI-557-CG\01_HelloOpenGL\Release\HelloOpenGL.exe : fatal error LNK1120: 3 unresolved externals
