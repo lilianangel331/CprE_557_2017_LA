@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\Lilian\Google Drive\CprE 557 CG\HW\CprE_557_2017_LA\02_3D_Modeling\hw1_main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Lilian\Google Drive\CprE 557 CG\HW\CprE_557_2017_LA\02_3D_Modeling\controls.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Lilian\Google Drive\CprE 557 CG\HW\CprE_557_2017_LA\02_3D_Modeling\HCI557Common.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Lilian\Google Drive\CprE 557 CG\HW\CprE_557_2017_LA\02_3D_Modeling\CoordSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\Users\Lilian\Google Drive\CprE 557 CG\HW\CprE_557_2017_LA\02_3D_Modeling\controls.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Lilian\Google Drive\CprE 557 CG\HW\CprE_557_2017_LA\02_3D_Modeling\HCI557Common.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Lilian\Google Drive\CprE 557 CG\HW\CprE_557_2017_LA\02_3D_Modeling\CoordSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\Lilian\Google Drive\CprE 557 CG\HW\CprE_557_2017_LA\02_3D_Modeling\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{2E783988-AC58-3F9F-BA94-83887F85B938}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{2DCCBB28-05BC-3FAB-983A-CE12EE0B4AA1}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
