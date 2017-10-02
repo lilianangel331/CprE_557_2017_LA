@@ -214,3 +214,30 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+02_3D_Modeling/CMakeCache.txt
+02_3D_Modeling/.vs/HW1_Program/v15/Browse.VC.db
+*.db
+*.db
+*.db-shm
+*.db-wal
+*.vcxproj
+*.txt
+*.txt
+*.cmake
+*.bin
+*.c
+02_3D_Modeling/CMakeFiles/3.8.1/CompilerIdC/CompilerIdC.exe
+02_3D_Modeling/CMakeFiles/3.8.1/CompilerIdCXX/CompilerIdCXX.exe
+02_3D_Modeling/CMakeFiles/3.8.1/CompilerIdCXX/CMakeCXXCompilerId.cpp
+*.filters
+*.opendb
+*.sln
+*.list
+*.depend
+*.stamp
+*.cxx
+*.rule
+*.check_cache
+*.exe
+01_HelloOpenGL/.vs/HelloOpenGL/v15/.suo
+*.db
