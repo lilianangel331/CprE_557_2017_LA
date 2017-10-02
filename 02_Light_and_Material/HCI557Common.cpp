@@ -248,7 +248,3 @@ bool initGlew(void)
     
     return true;
 }
-
-
-
-
