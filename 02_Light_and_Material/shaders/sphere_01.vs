@@ -108,44 +108,27 @@ vec4 useLight(Light light, vec4 surfacePostion, vec4 normal_transformed, vec3 no
 	//6.2 Apply an attenuation model. 
     float attenuation = 1.0 / (1.0 + light.attenuationCoefficient * pow(distanceToLight, 2));
     
-   if(light.light_position.w == 1.0)
-    {
-        //////////////////////////////////////////////////////////////////////////////////////////////
-        // Spotlight
-        // 1. Normalize the cone direction
-        vec3 cone_direction_norm = normalize(light.cone_direction);
+	//////////////////////////////////////////////////////////////////////////////////////////////
+	// Spotlight
+	// 1. Normalize the cone direction
+	vec3 cone_direction_norm = normalize(light.cone_direction);
+
+	// 2. Calculate the ray direction. We already calculated the surface to light direction.
+	// 	  All what we need to do is to inverse this value
+	vec3 ray_direction = -surface_to_light.xyz;
+
+	// 3. Calculate the angle between light and surface using the dot product again.
+	//    To simplify our understanding, we use the degrees
+	float light_to_surface_angle = degrees(acos(dot(ray_direction, cone_direction_norm))) ;
+
+	// 4. Last, we compare the angle with the current direction and
+	//    reduce the attenuation to 0.0 if the light is outside the angle.
+	if(light_to_surface_angle > light.cone_angle){
+		attenuation = 0.0;
+	}
     
-        // 2. Calculate the ray direction. We already calculated the surface to light direction.
-        // 	  All what we need to do is to inverse this value
-        vec3 ray_direction = -surface_to_light.xyz;
-    
-        // 3. Calculate the angle between light and surface using the dot product again.
-        //    To simplify our understanding, we use the degrees
-        float light_to_surface_angle = degrees(acos(dot(ray_direction, cone_direction_norm))) ;
-    
-        // 4. Last, we compare the angle with the current direction and
-        //    reduce the attenuation to 0.0 if the light is outside the angle.
-        if(light_to_surface_angle > light.cone_angle){
-            attenuation = 0.0;
-        }
-    
-    }
-    else if(light.light_position.w == 0.0) 
-	{
-        //////////////////////////////////////////////////////////////////////////////////////////////
-        // Directional light
-        
-        // 1. the values that we store as light position is our light direction.
-        vec3 light_direction = normalize(light.light_position.xyz);
-        
-        // 2. We check the angle of our light to make sure that only parts towards our light get illuminated
-        float light_to_surface_angle = dot(light_direction, normal_transformed.xyz);
-        
-        // 3. Check the angle, if the angle is smaller than 0.0, the surface is not directed towards the light.
-       // if(light_to_surface_angle > 0.0)attenuation = 1.0;
-       // else attenuation = 0.0;
-        attenuation = 1.0;
-    }
+
+
 
     //7.0 Determine the final color using a linear color model. 
     vec3 linearColor = out_ambient_color  + attenuation * ( out_diffuse_color + out_specular_color);

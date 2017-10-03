@@ -68,163 +68,141 @@ int main(int argc, const char * argv[])
 
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//// Sphere number 1
-
+	//// Blue Sphere
 
 	// create an apperance object.
 	GLAppearance* apperance0 = new GLAppearance("../shaders/sphere_01.vs", "../shaders/sphere_01.fs");
 
 
 	// The spotlight object
-	GLSpotLightSource  light_source1;
-	light_source1._lightPos = glm::vec4(20.0, 20.0, 0.0, 1.0);
-	light_source1._ambient_intensity = 0.3;
-	light_source1._specular_intensity = 8.0;
-	light_source1._diffuse_intensity = 3.0;
-	light_source1._attenuation_coeff = 0.02;
-	light_source1._cone_angle = 12.0; // in degree
-	light_source1._cone_direction = glm::vec3(-1.0, -1.0, 0.0); // this must be aligned with the object and light position.
-
-
-	GLDirectLightSource  light_source2;
-	light_source2._lightPos = glm::vec4(20.0, 0.0, 0.0, 0.0);
-	light_source2._ambient_intensity = 0.1;
-	light_source2._specular_intensity = 5.5;
-	light_source2._diffuse_intensity = 1.0;
-	light_source2._attenuation_coeff = 0.02;
-	// light_source2._cone_angle = 12.0; // in degree
-	// light_source2._cone_direction = glm::vec3(-1.0, 0.0, 0.0); // this must be aligned with the object and light position.
-
+	GLPointLightSource  light_source0;
+	light_source0._lightPos = glm::vec4(20.0, 20.0, 0.0, 1.0);
+	light_source0._ambient_intensity = 0.08;
+	light_source0._specular_intensity = 0.0;
+	light_source0._diffuse_intensity = 1.0;
+	light_source0._attenuation_coeff = 0.01;
 
 	// add the spot light to this apperance object
-	apperance0->addLightSource(light_source1);
-	apperance0->addLightSource(light_source2);
+	apperance0->addLightSource(light_source0);
 
 	// Create a material object
 	GLMaterial material0;
 	material0._diffuse_material = glm::vec3(0.0, 0.0, 1.0);
 	material0._ambient_material = glm::vec3(0.0, 0.0, 1.0);
-	material0._specular_material = glm::vec3(1.0, 1.0, 1.0);
-	material0._shininess = 12.0;
+	material0._specular_material = glm::vec3(0.0, 0.0, 0.0);
+	material0._shininess = 50.0;
 
 	// Add the material to the apperance object
 	apperance0->setMaterial(material0);
 	apperance0->finalize();
 
 	// create the sphere geometry
-	GLSphere3D* sphere0 = new GLSphere3D(0.0, 0.0, 0.0, 5.0, 10, 10);
+	GLSphere3D* sphere0 = new GLSphere3D(0.0, 0.0, 0.0, 5.0, 50, 50);
 	sphere0->setApperance(*apperance0);
 	sphere0->init();
 
-	material0._diffuse_material = glm::vec3(1.0, 0.0, 0.2);
-	material0._ambient_material = glm::vec3(1.0, 0.0, 0.2);
-	apperance0->updateMaterial();
-	light_source1._diffuse_intensity = 1.0;
-	apperance0->updateLightSources();
-
-
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//// Sphere number 2
+	//// Red Sphere 
 
 	// create an apperance object.
 	GLAppearance* apperance1 = new GLAppearance("../shaders/sphere_01.vs", "../shaders/sphere_01.fs");
 
-	// -> FEEL FREE TO CREATE NEW LIGHT SOURCES
 
+	// The spotlight object
+	GLDirectLightSource  light_source1;
+	light_source1._lightPos = glm::vec4(20.0, 20.0, 0.0, 1.0);
+	light_source1._ambient_intensity = 0.08;
+	light_source1._specular_intensity = 5.0;
+	light_source1._diffuse_intensity = 1.0;
+	light_source1._attenuation_coeff = 0.01;
 
 	// add the spot light to this apperance object
 	apperance1->addLightSource(light_source1);
-	apperance1->addLightSource(light_source2);
 
 	// Create a material object
 	GLMaterial material1;
-	material1._diffuse_material = glm::vec3(0.0, 0.0, 1.0);
-	material1._ambient_material = glm::vec3(0.0, 0.0, 1.0);
-	material1._specular_material = glm::vec3(0.0, 0.0, 0.0);
-	material1._shininess = 12.0;
+	material1._diffuse_material = glm::vec3(1.0, 0.0, 0.0);
+	material1._ambient_material = glm::vec3(1.0, 0.0, 0.0);
+	material1._specular_material = glm::vec3(1.0, 1.0, 1.0);
+	material1._shininess = 150.0;
 
 	// Add the material to the apperance object
 	apperance1->setMaterial(material1);
 	apperance1->finalize();
 
 	// create the sphere geometry
-	GLSphere3D* sphere1 = new GLSphere3D(0.0, 0.0, 0.0, 5.0, 10, 10);
+	GLSphere3D* sphere1 = new GLSphere3D(0.0, 0.0, 0.0, 5.0, 50, 50);
 	sphere1->setApperance(*apperance1);
 	sphere1->init();
 
-
-	// NOTE - THIS IS AN EXAMPLE THAT SHOWS HOW TO UPDATE LIGHT SOURCES AMD MATERIAL PARAMETER
-
-	material1._diffuse_material = glm::vec3(0.0, 0.2, 0.2);
-	material1._ambient_material = glm::vec3(0.0, 0.2, 0.2);
-	apperance1->updateMaterial();
-	light_source1._diffuse_intensity = 1.0;
-	apperance1->updateLightSources();
-
-
-
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//// Sphere number 3
+	//// Green Sphere
 
 	// create an apperance object.
 	GLAppearance* apperance2 = new GLAppearance("../shaders/sphere_01.vs", "../shaders/sphere_01.fs");
 
-	// -> FEEL FREE TO CREATE NEW LIGHT SOURCES
-
+	// The spotlight object
+	GLDirectLightSource  light_source2;
+	light_source2._lightPos = glm::vec4(20.0, 20.0, 1.0, 1.0); 
+	light_source2._ambient_intensity = 0.00;
+	light_source2._specular_intensity = 20.0;
+	light_source2._diffuse_intensity = 30.0;
+	light_source2._attenuation_coeff = 0.00;
 
 	// add the spot light to this apperance object
-	apperance2->addLightSource(light_source1);
 	apperance2->addLightSource(light_source2);
 
 	// Create a material object
 	GLMaterial material2;
-	material2._diffuse_material = glm::vec3(0.0, 0.0, 1.0);
-	material2._ambient_material = glm::vec3(0.0, 0.0, 1.0);
-	material2._specular_material = glm::vec3(1.0, 1.0, 0.0);
-	material2._shininess = 2.7;
+	material2._diffuse_material = glm::vec3(0.0, 1.0, 0.0);
+	material2._ambient_material = glm::vec3(0.0, 1.0, 0.0);
+	material2._specular_material = glm::vec3(1.0, 1.0, 1.0);
+	material2._shininess = 150.0;
 
 	// Add the material to the apperance object
 	apperance2->setMaterial(material2);
 	apperance2->finalize();
 
 	// create the sphere geometry
-	GLSphere3D* sphere2 = new GLSphere3D(0.0, 0.0, 0.0, 5.0, 10, 10);
+	GLSphere3D* sphere2 = new GLSphere3D(0.0, 0.0, 0.0, 5.0, 50, 50);
 	sphere2->setApperance(*apperance2);
 	sphere2->init();
 
-
-
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//// Sphere number 4
+	//// Yellow Sphere 
 
 	// create an apperance object.
 	GLAppearance* apperance3 = new GLAppearance("../shaders/sphere_01.vs", "../shaders/sphere_01.fs");
 
-	// -> FEEL FREE TO CREATE NEW LIGHT SOURCES
-
+	// The spotlight object
+	GLSpotLightSource  light_source3;
+	light_source3._lightPos = glm::vec4(20.0, 20.0, 1.0, 1.0);
+	light_source3._ambient_intensity = 0.01;
+	light_source3._specular_intensity = 1.0;
+	light_source3._diffuse_intensity = 10.0;
+	light_source3._attenuation_coeff = 0.01;
+	light_source3._cone_angle = 50.0; // in degree
+	light_source3._cone_direction = glm::vec3(-1.0, -1.0, 0.0); // this must be aligned with the object and light position.
 
 	// add the spot light to this apperance object
-	apperance3->addLightSource(light_source1);
-	apperance3->addLightSource(light_source2);
+	apperance3->addLightSource(light_source3);
 
 	// Create a material object
 	GLMaterial material3;
-	material3._diffuse_material = glm::vec3(1.0, 0.0, 0.2);
-	material3._ambient_material = glm::vec3(0.3, 0.0, 1.0);
-	material3._specular_material = glm::vec3(1.0, 0.0, 0.0);
-	material3._shininess = 0.0;
+	material3._diffuse_material = glm::vec3(1.0, 1.0, 0.0);
+	material3._ambient_material = glm::vec3(1.0, 1.0, 0.0);
+	material3._specular_material = glm::vec3(1.0, 1.0, 1.0);
+	material3._shininess = 40.0;
 
 	// Add the material to the apperance object
 	apperance3->setMaterial(material3);
 	apperance3->finalize();
 
 	// create the sphere geometry
-	GLSphere3D* sphere3 = new GLSphere3D(0.0, 0.0, 0.0, 5.0, 10, 10);
+	GLSphere3D* sphere3 = new GLSphere3D(0.0, 0.0, 0.0, 5.0, 50, 50);
 	sphere3->setApperance(*apperance3);
 	sphere3->init();
-
-
 
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
