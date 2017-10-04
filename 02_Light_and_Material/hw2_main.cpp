@@ -77,7 +77,7 @@ int main(int argc, const char * argv[])
 	// The spotlight object
 	GLPointLightSource  light_source0;
 	light_source0._lightPos = glm::vec4(20.0, 20.0, 0.0, 1.0);
-	light_source0._ambient_intensity = 0.08;
+	light_source0._ambient_intensity = 0.05;
 	light_source0._specular_intensity = 0.0;
 	light_source0._diffuse_intensity = 1.0;
 	light_source0._attenuation_coeff = 0.01;
@@ -110,9 +110,9 @@ int main(int argc, const char * argv[])
 
 
 	// The spotlight object
-	GLDirectLightSource  light_source1;
+	GLPointLightSource  light_source1;
 	light_source1._lightPos = glm::vec4(20.0, 20.0, 0.0, 1.0);
-	light_source1._ambient_intensity = 0.08;
+	light_source1._ambient_intensity = 0.05;
 	light_source1._specular_intensity = 5.0;
 	light_source1._diffuse_intensity = 1.0;
 	light_source1._attenuation_coeff = 0.01;
@@ -144,7 +144,7 @@ int main(int argc, const char * argv[])
 
 	// The spotlight object
 	GLDirectLightSource  light_source2;
-	light_source2._lightPos = glm::vec4(20.0, 20.0, 1.0, 1.0); 
+	light_source2._lightPos = glm::vec4(20.0, 20.0, 1.0, 1.0);
 	light_source2._ambient_intensity = 0.00;
 	light_source2._specular_intensity = 20.0;
 	light_source2._diffuse_intensity = 30.0;
@@ -180,18 +180,18 @@ int main(int argc, const char * argv[])
 	light_source3._lightPos = glm::vec4(20.0, 20.0, 1.0, 1.0);
 	light_source3._ambient_intensity = 0.01;
 	light_source3._specular_intensity = 1.0;
-	light_source3._diffuse_intensity = 10.0;
+	light_source3._diffuse_intensity = 30.0;
 	light_source3._attenuation_coeff = 0.01;
 	light_source3._cone_angle = 50.0; // in degree
 	light_source3._cone_direction = glm::vec3(-1.0, -1.0, 0.0); // this must be aligned with the object and light position.
 
-	// add the spot light to this apperance object
+																// add the spot light to this apperance object
 	apperance3->addLightSource(light_source3);
 
 	// Create a material object
 	GLMaterial material3;
-	material3._diffuse_material = glm::vec3(1.0, 1.0, 0.0);
-	material3._ambient_material = glm::vec3(1.0, 1.0, 0.0);
+	material3._diffuse_material = glm::vec3(1.0, 1.0, 0.2);
+	material3._ambient_material = glm::vec3(1.0, 1.0, 0.2);
 	material3._specular_material = glm::vec3(1.0, 1.0, 1.0);
 	material3._shininess = 40.0;
 
@@ -274,4 +274,3 @@ int main(int argc, const char * argv[])
 
 
 }
-
