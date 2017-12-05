@@ -11,7 +11,6 @@ _file_and_path(filename)
     
     _file_ok = false;
     _file_ok =load_obj(filename.c_str(), _vertices, _normals, _elements);
-   
 }
 
 GLObjectObj::GLObjectObj()
@@ -24,8 +23,6 @@ GLObjectObj::~GLObjectObj()
 {
 
 }
-
-
 
 /*!
  Init the geometry object
@@ -42,7 +39,6 @@ void GLObjectObj::init(void)
 bool GLObjectObj::extractNextFace1(string& in, string& out, int& pointIdx0, int& pointIdx1, int& pointIdx2 )
 {
     GLuint a,b,c;
-    
     
     // remove the first space
     int idv1 = in.find_first_of(" ");
@@ -74,15 +70,13 @@ bool GLObjectObj::extractNextFace3(string& in, string& out, int& pointIdx, int& 
     else
     {
         out = "";
-    }
-    
+    } 
 
     pointIdx = a;
     texIdx = b;
     normalIdx = c;
     
     return true;
-
 }
 
 
@@ -117,7 +111,7 @@ bool GLObjectObj::load_obj(const char* filename, vector<glm::vec3> &vertices, ve
 		else if (line.substr(0, 2) == "vt")
 		{
 			istringstream s(line.substr(2));
-			glm::vec2 uv; s >> uv.x; s >> uv.y;;
+			glm::vec2 uv; s >> uv.x; s >> uv.y;
 			temp_uvs.push_back(uv);
 		}
         else if (line.substr(0,2) == "f ")
@@ -135,7 +129,6 @@ bool GLObjectObj::load_obj(const char* filename, vector<glm::vec3> &vertices, ve
             }
             else
             {
-                
                 size_t n = std::count(line.begin(), line.end(), '/');
                 if(n == 0)
                 {
@@ -208,8 +201,6 @@ bool GLObjectObj::load_obj(const char* filename, vector<glm::vec3> &vertices, ve
             s >> _model_name;
         }
     }
-
-
     
     /////////////////////////////////////////////
     // assign normals to points and points to triangles.
@@ -229,8 +220,7 @@ bool GLObjectObj::load_obj(const char* filename, vector<glm::vec3> &vertices, ve
         
         normals.push_back(temp_normals[normalIdx.x-1]);
         normals.push_back(temp_normals[normalIdx.y-1]);
-        normals.push_back(temp_normals[normalIdx.z-1]);
-        
+        normals.push_back(temp_normals[normalIdx.z-1]);   
     }  
     
     if(normals.size() > 0) return true; // loaded normal vectors
@@ -298,6 +288,10 @@ void GLObjectObj::initVBO(void)
     glVertexAttribPointer((GLuint)locPos, 3, GL_FLOAT, GL_FALSE, 0, 0); // Set up our vertex attributes pointer
     glEnableVertexAttribArray(locPos); //
     
+	//UVs
+	int tex_idx = glGetAttribLocation(_program, "in_TexCoord");
+	glVertexAttribPointer((GLuint)tex_idx, 2, GL_FLOAT, GL_TRUE, 0,0);
+	glEnableVertexAttribArray(tex_idx);
     
      // normals
     int locNorm = glGetAttribLocation(_program, "in_Normal");
@@ -308,7 +302,6 @@ void GLObjectObj::initVBO(void)
     glEnableVertexAttribArray(locNorm); //
     
     glBindVertexArray(0); // Disable our Vertex Buffer Object
-
 }
 
 
@@ -329,36 +322,26 @@ void GLObjectObj::initShader(void)
     
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // Vertex information / names
-    
-    glBindAttribLocation(_program, 0, "in_Position");
-    glBindAttribLocation(_program, 1, "in_Normal");
+    glBindAttribLocation(_program, 0, "in_Position");	
+	glBindAttribLocation(_program, 1, "in_TexCoord");
+    glBindAttribLocation(_program, 2, "in_Normal");
 
-    
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // Define the model view matrix.
     _modelMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f)); // Create our model matrix which will halve the size of our model
     addModelViewMatrixToProgram(_program);
-    
-    
-    
-    glUseProgram(0);
-    
+    glUseProgram(0);  
 }
-
-
-
 
 /*!
  Draw the objects
  */
 void GLObjectObj::draw(void)
-{
-    
+{   
     glUseProgram(_program);
 
     // Bind the buffer and switch it to an active buffer
     glBindVertexArray(_vaoID[0]);
-    
     
     // this changes the camera location
     glm::mat4 rotated_view =  rotatedViewMatrix();
@@ -369,14 +352,9 @@ void GLObjectObj::draw(void)
     // Draw the triangles
     glDrawArrays(GL_TRIANGLES, 0, _num_vertices);
 
-    
-    
     // Unbind our Vertex Array Object
-    glBindVertexArray(0);
-    
+    glBindVertexArray(0); 
 }
-
-
 
 /*!
 Returns the number of vertices
@@ -403,5 +381,4 @@ void GLObjectObj::updateVertices(float* vertices)
     
     glVertexAttribPointer((GLuint)locPos, 3, GL_FLOAT, GL_FALSE, 0, 0); // Set up our vertex attributes pointer
     glEnableVertexAttribArray(locPos); //
-
 }

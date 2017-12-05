@@ -1,6 +1,7 @@
 //  Created by Rafael Radkowski on 5/28/15.
 //  Copyright (c) 2015 -. All rights reserved.
 //
+//	Adapted by Lilian Angel for CPRE 557 Final Project
 
 // stl include
 #include <iostream>
@@ -263,4 +264,3 @@ int main(int argc, const char * argv[])
     }    
     delete cs;
 }
-
