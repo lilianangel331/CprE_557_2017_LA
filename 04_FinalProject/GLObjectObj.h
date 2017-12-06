@@ -64,7 +64,7 @@ private:
     /*!
      Load an obj model from a file
      */
-    bool load_obj(const char* filename, vector<glm::vec3> &vertices, vector<glm::vec3> &normals, vector<GLuint> &elements);
+    bool load_obj(const char* filename, vector<glm::vec3> &vertices, vector<glm::vec2> &uvs, vector<glm::vec3> &normals, vector<GLuint> &elements);
 
     
     

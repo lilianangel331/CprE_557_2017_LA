@@ -128,8 +128,6 @@ void my_morphing_callback(float duration)
 	loadedModel1->updateVertices(vector_result);
 }
 
-
-
 int main(int argc, const char * argv[])
 {
     // Init the GLFW Window
@@ -180,14 +178,14 @@ int main(int argc, const char * argv[])
     // Finalize the appearance object
     apperance_0->finalize();
    
-	loadedModel1 =  new GLObjectObj("butterfly1.obj");
+	loadedModel1 =  new GLObjectObj("butterfly3.obj");
 	loadedModel1->setApperance(*apperance_0);
 	loadedModel1->init();
 
 	glm::mat4 tranform = glm::scale(glm::vec3(10.0, 10.0f, 10.0f));
 	loadedModel1->setMatrix(tranform);
 
-	loadedModel2 = new GLObjectObj("butterfly2.obj");
+	loadedModel2 = new GLObjectObj("butterfly4.obj");
 	loadedModel2->setApperance(*apperance_0);
 	loadedModel2->init();
 	loadedModel2->setMatrix(tranform);
@@ -254,10 +252,6 @@ int main(int argc, const char * argv[])
         float delta = 0.05f;
         glUniform1f(location, delta);
         
-        //// change the texture appearance blend mode
-        //bool ret = texture->setTextureBlendMode(g_change_texture_blend);
-        //if(ret)apperance_0->updateTextures();
-
         // Swap the buffers so that what we drew will appear on the screen.
         glfwSwapBuffers(window);
         glfwPollEvents();      

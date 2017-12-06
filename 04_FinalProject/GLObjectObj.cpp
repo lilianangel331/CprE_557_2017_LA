@@ -1,7 +1,7 @@
 
 
 #include "GLObjectObj.h"
-
+#include "HCI557Datatypes.h"
 #include <algorithm>
 
 
@@ -10,7 +10,7 @@ _file_and_path(filename)
 {
     
     _file_ok = false;
-    _file_ok =load_obj(filename.c_str(), _vertices, _normals, _elements);
+    _file_ok =load_obj(filename.c_str(), _vertices, _uvs, _normals, _elements);
 }
 
 GLObjectObj::GLObjectObj()
@@ -82,7 +82,7 @@ bool GLObjectObj::extractNextFace3(string& in, string& out, int& pointIdx, int& 
 
 
 
-bool GLObjectObj::load_obj(const char* filename, vector<glm::vec3> &vertices, vector<glm::vec3> &normals, vector<GLuint> &elements)
+bool GLObjectObj::load_obj(const char* filename, vector<glm::vec3> &vertices, vector<glm::vec2> &uvs,vector<glm::vec3> &normals, vector<GLuint> &elements)
 {
     ifstream in(filename, ios::in);
     if (!in)
@@ -96,6 +96,7 @@ bool GLObjectObj::load_obj(const char* filename, vector<glm::vec3> &vertices, ve
 	vector<glm::vec2> temp_uvs;
     vector<glm::vec3> temp_index_normal2point;
     vector<glm::vec3> temp_index_triangle;
+	vector<glm::vec2> temp_index_uvs;
     vector<glm::vec3> temp_index_textures;
     
     string line;
@@ -112,7 +113,9 @@ bool GLObjectObj::load_obj(const char* filename, vector<glm::vec3> &vertices, ve
 		{
 			istringstream s(line.substr(2));
 			glm::vec2 uv; s >> uv.x; s >> uv.y;
+			int u, v;
 			temp_uvs.push_back(uv);
+			temp_index_uvs.push_back(glm::vec2(u, v));
 		}
         else if (line.substr(0,2) == "f ")
         {
@@ -133,7 +136,7 @@ bool GLObjectObj::load_obj(const char* filename, vector<glm::vec3> &vertices, ve
                 if(n == 0)
                 {
                     string new_line;
-                    int p0, p1, p2;
+					int p0, p1, p2;
                     extractNextFace1(line, new_line, p0, p1, p2 );
                     
                     temp_index_triangle.push_back(glm::vec3(p0, p1, p2));
@@ -156,7 +159,8 @@ bool GLObjectObj::load_obj(const char* filename, vector<glm::vec3> &vertices, ve
                     int p1, t1,  n1;
                     int p2, t2,  n2;
                     int p3, t3,  n3;
-                    
+					/*int u, v;
+                    */
                     // first
                     extractNextFace3(line, new_line, p0, t0, n0 );
                     
@@ -178,9 +182,11 @@ bool GLObjectObj::load_obj(const char* filename, vector<glm::vec3> &vertices, ve
                     temp_index_normal2point.push_back(glm::vec3(n0, n1, n2));
                     temp_index_textures.push_back(glm::vec3(t0, t1, t2));
                     
+					//temp_index_uvs.push_back(glm::vec2 (u, v));
+
                     elements.push_back(p0);
                     elements.push_back(p1);
-                    elements.push_back(p2);                  
+                    elements.push_back(p2);     
                 }       
             }
         }
@@ -206,10 +212,11 @@ bool GLObjectObj::load_obj(const char* filename, vector<glm::vec3> &vertices, ve
     // assign normals to points and points to triangles.
     
     vertices.clear();
+	uvs.clear();
     normals.clear();
     for(int i=0; i<temp_index_triangle.size(); i++)
     {
-        glm::vec3 pointIdx = temp_index_triangle[i];
+		glm::vec3 pointIdx = temp_index_triangle[i];
         glm::vec3 normalIdx = temp_index_normal2point[i];
         
         // the three points of one triangle
@@ -217,11 +224,18 @@ bool GLObjectObj::load_obj(const char* filename, vector<glm::vec3> &vertices, ve
         vertices.push_back(temp_vertices[ pointIdx.x-1 ]);
         vertices.push_back(temp_vertices[ pointIdx.y-1 ]);
         vertices.push_back(temp_vertices[ pointIdx.z-1 ]);
-        
+		
         normals.push_back(temp_normals[normalIdx.x-1]);
         normals.push_back(temp_normals[normalIdx.y-1]);
         normals.push_back(temp_normals[normalIdx.z-1]);   
     }  
+
+	for (int i =0; i< temp_index_uvs.size(); i++)
+	{
+		//glm::vec2 uvIdx = temp_index_uvs[i];
+		uvs.push_back(temp_uvs[i]);
+		//uvs.push_back(temp_uvs[uvIdx.y]);
+	}
     
     if(normals.size() > 0) return true; // loaded normal vectors
     
@@ -251,6 +265,7 @@ void GLObjectObj::initVBO(void)
     // create memory for the vertices, etc.
     float* vertices = new float[_num_vertices * 3];
     float* normals = new float[_normals.size() * 3];
+	float* uvs = new float[_uvs.size() * 2];
     int* indices = new int[_elements.size()];
     
     // Copy all vertices
@@ -261,7 +276,16 @@ void GLObjectObj::initVBO(void)
             vertices[(i*3)+j] = t[j];
         }
     }
-    
+
+	// Copy all uvs
+	for (int i = 0; i<_uvs.size(); i++)
+	{
+		glm::vec2 t = _uvs[i];
+		for (int j = 0; j<2; j++) {
+			uvs[(i * 2) + j] = t[j];
+		}
+	}
+
     // copy all normals
     for(int i=0; i<_normals.size() ; i++)
     {
@@ -270,26 +294,23 @@ void GLObjectObj::initVBO(void)
             normals[(i*3)+j] = n[j];
         }
     }
-
-    
-    
     
     glGenVertexArrays(1, _vaoID); // Create our Vertex Array Object
     glBindVertexArray(_vaoID[0]); // Bind our Vertex Array Object so we can use it
     
     
-    glGenBuffers(2, _vboID); // Generate our Vertex Buffer Object
+    glGenBuffers(3, _vboID); // Generate our Vertex Buffer Object
     
     // vertices
      int locPos = glGetAttribLocation(_program, "in_Position");
     glBindBuffer(GL_ARRAY_BUFFER, _vboID[0]); // Bind our Vertex Buffer Object
-    glBufferData(GL_ARRAY_BUFFER, _num_vertices * 3 * sizeof(GLfloat), vertices, GL_DYNAMIC_DRAW); // Set the size and data of our VBO and set it to STATIC_DRAW
-    
+    glBufferData(GL_ARRAY_BUFFER, _num_vertices * 3 * sizeof(GLfloat), vertices, GL_DYNAMIC_DRAW); // Set the size and data of our VBO and set it to STATIC_DRAW 
     glVertexAttribPointer((GLuint)locPos, 3, GL_FLOAT, GL_FALSE, 0, 0); // Set up our vertex attributes pointer
     glEnableVertexAttribArray(locPos); //
     
 	//UVs
 	int tex_idx = glGetAttribLocation(_program, "in_TexCoord");
+	glBufferData(GL_ARRAY_BUFFER, _num_vertices * 2 * sizeof(GLfloat), uvs, GL_STATIC_DRAW);
 	glVertexAttribPointer((GLuint)tex_idx, 2, GL_FLOAT, GL_TRUE, 0,0);
 	glEnableVertexAttribArray(tex_idx);
     
@@ -378,7 +399,12 @@ void GLObjectObj::updateVertices(float* vertices)
     int locPos = glGetAttribLocation(_program, "in_Position");
     glBindBuffer(GL_ARRAY_BUFFER, _vboID[0]); // Bind our Vertex Buffer Object
     glBufferData(GL_ARRAY_BUFFER, _num_vertices * 3 * sizeof(GLfloat), vertices, GL_DYNAMIC_DRAW);
-    
+
+	//int tex_idx = glGetAttribLocation(_program, "in_TexCoord");
+	//glBufferData(GL_ARRAY_BUFFER, _num_vertices * 2 * sizeof(GLfloat), vertices, GL_STATIC_DRAW);
+ //   glEnableVertexAttribArray(tex_idx); //
+
     glVertexAttribPointer((GLuint)locPos, 3, GL_FLOAT, GL_FALSE, 0, 0); // Set up our vertex attributes pointer
     glEnableVertexAttribArray(locPos); //
+	
 }
