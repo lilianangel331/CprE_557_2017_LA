@@ -38,7 +38,7 @@ void main(){
 	vec3 MaterialSpecularColor = texture( SpecularTextureSampler, UV ).rgb*.5;
 	float MaterialTransparency = texture( TransparentTextureSampler, UV ).r;
 
-	// Local normal, in tangent space. V tex coordinate is inverted because normal map is in TGA (not in DDS) for better quality
+	// Local norma
 	vec3 TextureNormal_tangentspace = normalize(texture( NormalTextureSampler, vec2(UV.x,-UV.y) ).rgb*2.0 - 1.0);
 	
 	// Distance to the light
