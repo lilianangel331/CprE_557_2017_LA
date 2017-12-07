@@ -26,6 +26,8 @@
 #include "HCI557Common.h"
 #include "CoordSystem.h"
 #include "Texture.h"
+#include "GLSphere.h"
+#include "Sphere3D.h"
 
 using namespace std;
 
@@ -47,6 +49,8 @@ GLAppearance* apperance_0;
 
 GLObjectObj* loadedModel1 = NULL; // the basic / normal model
 GLObjectObj* loadedModel2 = NULL; // the morphed model
+
+//GLSphere* environment = NULL;
 
 GLfloat* vector_diff = 0;
 GLfloat* vector_result = 0;
@@ -190,12 +194,52 @@ int main(int argc, const char * argv[])
 	loadedModel2->init();
 	loadedModel2->setMatrix(tranform);
 
+
+	// Environment
+	// create an apperance object.
+	GLAppearance* apperance1 = new GLAppearance("spherical_mapping.vs", "spherical_mapping.fs");
+
+
+	// The spotlight object
+	GLPointLightSource  light_source2;
+	light_source2._lightPos = glm::vec4(20.0, 20.0, 0.0, 1.0);
+	light_source2._ambient_intensity = 0.05;
+	light_source2._specular_intensity = 0.0;
+	light_source2._diffuse_intensity = 1.0;
+	light_source2._attenuation_coeff = 0.01;
+
+	// add the spot light to this apperance object
+	apperance1->addLightSource(light_source2);
+
+	// Create a material object
+	GLMaterial material2;
+	material2._diffuse_material = glm::vec3(0.0, 0.0, 1.0);
+	material2._ambient_material = glm::vec3(0.0, 0.0, 1.0);
+	material2._specular_material = glm::vec3(0.0, 0.0, 0.0);
+	material2._shininess = 50.0;
+
+	// Add the material to the apperance object
+	apperance1->setMaterial(material2);
+
+	// Add a texture
+	GLTexture* texture2 = new GLTexture();
+	texture2->loadAndCreateTexture("reflection_map.bmp");
+	apperance1->setTexture(texture2);
+
+	apperance1->finalize();
+
+	// create the sphere geometry
+	GLSphere3D* environment = new GLSphere3D(0.0, 0.0, 0.0, 1000, 50, 50);
+	environment->setApperance(*apperance1);
+	environment->init();
+	glUseProgram(apperance1->getProgram());
+
     // If you want to change appearance parameters after you init the object, call the update function
     apperance_0->updateLightSources();
     
     
     // enable the program
-    glUseProgram(apperance_0->getProgram());
+    //glUseProgram(apperance_0->getProgram());
     int location = glGetUniformLocation(apperance_0->getProgram(), "texture_delta");
     glUniform1f(location, 0.00f);
     glUniform1f(glGetUniformLocation(apperance_0->getProgram(), "bump_mode"), 0);
@@ -247,8 +291,11 @@ int main(int argc, const char * argv[])
         // draw the objects
         cs->draw();
 		loadedModel1->draw();
+		//glm::mat4 matrix = glm::rotate(glm::mat4(1), 180.0f, glm::vec3(0.0f, 0.0f, 1.0f));
+		//environment->setModelMatrix(matrix);
+		environment->draw();
         
-        glUseProgram(apperance_0->getProgram());
+        //glUseProgram(apperance_0->getProgram());
         float delta = 0.05f;
         glUniform1f(location, delta);
         

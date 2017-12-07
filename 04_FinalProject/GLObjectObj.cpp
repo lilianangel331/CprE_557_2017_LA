@@ -308,11 +308,11 @@ void GLObjectObj::initVBO(void)
     glVertexAttribPointer((GLuint)locPos, 3, GL_FLOAT, GL_FALSE, 0, 0); // Set up our vertex attributes pointer
     glEnableVertexAttribArray(locPos); //
     
-	//UVs
-	int tex_idx = glGetAttribLocation(_program, "in_TexCoord");
-	glBufferData(GL_ARRAY_BUFFER, _num_vertices * 2 * sizeof(GLfloat), uvs, GL_STATIC_DRAW);
-	glVertexAttribPointer((GLuint)tex_idx, 2, GL_FLOAT, GL_TRUE, 0,0);
-	glEnableVertexAttribArray(tex_idx);
+	////UVs
+	//int tex_idx = glGetAttribLocation(_program, "in_TexCoord");
+	//glBufferData(GL_ARRAY_BUFFER, _num_vertices * 2 * sizeof(GLfloat), uvs, GL_STATIC_DRAW);
+	//glVertexAttribPointer((GLuint)tex_idx, 2, GL_FLOAT, GL_TRUE, 0,0);
+	//glEnableVertexAttribArray(tex_idx);
     
      // normals
     int locNorm = glGetAttribLocation(_program, "in_Normal");
@@ -400,9 +400,9 @@ void GLObjectObj::updateVertices(float* vertices)
     glBindBuffer(GL_ARRAY_BUFFER, _vboID[0]); // Bind our Vertex Buffer Object
     glBufferData(GL_ARRAY_BUFFER, _num_vertices * 3 * sizeof(GLfloat), vertices, GL_DYNAMIC_DRAW);
 
-	//int tex_idx = glGetAttribLocation(_program, "in_TexCoord");
-	//glBufferData(GL_ARRAY_BUFFER, _num_vertices * 2 * sizeof(GLfloat), vertices, GL_STATIC_DRAW);
- //   glEnableVertexAttribArray(tex_idx); //
+	int tex_idx = glGetAttribLocation(_program, "in_TexCoord");
+	glBufferData(GL_ARRAY_BUFFER, _num_vertices * 2 * sizeof(GLfloat), vertices, GL_STATIC_DRAW);
+    glEnableVertexAttribArray(tex_idx); //
 
     glVertexAttribPointer((GLuint)locPos, 3, GL_FLOAT, GL_FALSE, 0, 0); // Set up our vertex attributes pointer
     glEnableVertexAttribArray(locPos); //

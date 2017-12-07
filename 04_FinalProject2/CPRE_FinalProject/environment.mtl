@@ -1,0 +1,17 @@
+newmtl blinn1SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd butterflyWing.bmp
+bump bumpMap.bmp -bm 0.6
+Ni 1.00
+Ks 0.00 0.00 0.00
+map_Ks specMap.bmp
+newmtl lambert2SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd meadow.jpg
+Ni 1.00
