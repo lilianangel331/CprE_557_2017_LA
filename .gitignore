@@ -238,7 +238,6 @@ pip-log.txt
 *.cxx
 *.rule
 *.check_cache
-*.exe
 01_HelloOpenGL/.vs/HelloOpenGL/v15/.suo
 *.db
 
